@@ -3,6 +3,9 @@ import {
   Leaf, LayoutDashboard, Sprout, CloudSun, Bug, PhoneCall,
   MessageSquare, BarChart3, Settings, LogOut, Menu, X
 } from 'lucide-react'
+import { useAuth } from '../../../context/AuthContext'
+import { auth } from '../../../firebase'
+import { signOut } from 'firebase/auth'
 
 const nav = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '#/dashboard' },
@@ -16,7 +19,8 @@ const nav = [
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false)
-  const userName = localStorage.getItem('userName') || 'Ramesh'
+  const { currentUser, userData } = useAuth()
+  const userName = userData?.name || currentUser?.displayName || 'Farmer'
   return (
     <>
       {/* Mobile toggle */}
@@ -93,8 +97,8 @@ export default function Sidebar() {
             </button>
             <button 
               className="flex items-center gap-2 text-sm hover:text-red-500"
-              onClick={() => {
-                localStorage.removeItem('userName')
+              onClick={async () => {
+                await signOut(auth)
                 window.location.hash = '#/login'
               }}
             >

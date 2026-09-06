@@ -1,15 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { Leaf, Mail, Lock, ArrowRight } from 'lucide-react'
 import useReveal from '../hooks/useReveal'
+import { auth } from '../firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   useReveal()
+  const { currentUser } = useAuth()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   
-  useEffect(() => {
-    if (localStorage.getItem('userName')) {
+  React.useEffect(() => {
+    if (currentUser) {
       window.location.hash = '#/dashboard'
     }
-  }, [])
+  }, [currentUser])
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    
+    const email = document.getElementById('login-email').value
+    const password = document.getElementById('login-password').value
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      window.location.hash = '#/dashboard'
+    } catch (err) {
+      console.error(err)
+      setError('Invalid email or password.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-brand-50 via-white to-emerald-50 flex items-center justify-center overflow-hidden px-4">
@@ -28,16 +53,9 @@ export default function Login() {
             <p className="text-slate-600 mt-2">Sign in to manage your farm smarter.</p>
           </div>
 
-          <form className="space-y-5" onSubmit={(e) => { 
-            e.preventDefault(); 
-            const email = document.getElementById('login-email').value;
-            if (email) {
-              const namePart = email.split('@')[0];
-              const name = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-              localStorage.setItem('userName', name);
-            }
-            window.location.hash = '#/dashboard';
-          }}>
+          {error && <div className="mb-4 p-3 rounded-lg bg-red-100 text-red-700 text-sm font-medium">{error}</div>}
+
+          <form className="space-y-5" onSubmit={handleLogin}>
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
               <div className="relative">
@@ -64,6 +82,7 @@ export default function Login() {
                   <Lock className="h-5 w-5 text-slate-400" />
                 </div>
                 <input
+                  id="login-password"
                   type="password"
                   className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-slate-900 placeholder:text-slate-400"
                   placeholder="••••••••"
@@ -83,8 +102,8 @@ export default function Login() {
               </label>
             </div>
 
-            <button type="submit" className="w-full btn-primary justify-center text-lg py-3 mt-4">
-              Sign In <ArrowRight className="w-5 h-5 ml-1" />
+            <button type="submit" disabled={loading} className="w-full btn-primary justify-center text-lg py-3 mt-4 disabled:opacity-70 disabled:cursor-not-allowed">
+              {loading ? 'Signing in...' : 'Sign In'} <ArrowRight className="w-5 h-5 ml-1" />
             </button>
           </form>
           

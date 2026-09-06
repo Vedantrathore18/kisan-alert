@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Search, Bell, Sun, Moon, ChevronDown, User, Settings, LogOut, Sprout } from 'lucide-react'
+import { useAuth } from '../../../context/AuthContext'
+import { auth } from '../../../firebase'
+import { signOut } from 'firebase/auth'
 
 const NOTIFICATIONS = [
   { icon: '🌧️', title: 'Heavy Rain Alert', desc: 'Rain expected tomorrow 3-7 PM', time: '2h ago' },
@@ -14,7 +17,8 @@ export default function Topbar() {
   const [q, setQ] = useState('')
   const bellRef = useRef(null)
   const profRef = useRef(null)
-  const userName = localStorage.getItem('userName') || 'Ramesh'
+  const { currentUser, userData } = useAuth()
+  const userName = userData?.name || currentUser?.displayName || 'Farmer'
 
   // Close on outside click
   useEffect(() => {
@@ -135,8 +139,8 @@ export default function Topbar() {
                   <MenuItem icon={User} label="My Profile" />
                   <MenuItem icon={Sprout} label="My Crops" href="#/crop" />
                   <MenuItem icon={Settings} label="Settings" />
-                  <MenuItem icon={LogOut} label="Logout" danger onClick={() => {
-                    localStorage.removeItem('userName')
+                  <MenuItem icon={LogOut} label="Logout" danger onClick={async () => {
+                    await signOut(auth)
                     window.location.hash = '#/login'
                   }} />
                 </ul>

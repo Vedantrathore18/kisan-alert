@@ -15,6 +15,7 @@ import DiseaseScan from './pages/DiseaseScan'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import useReveal from './hooks/useReveal'
+import { AuthProvider } from './context/AuthContext'
 
 function Landing() {
   useReveal()
@@ -54,6 +55,14 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
+  return (
+    <AuthProvider>
+      <AppContent route={route} />
+    </AuthProvider>
+  )
+}
+
+function AppContent({ route }) {
   if (route.startsWith('#/dashboard')) return <Dashboard />
   if (route.startsWith('#/login')) return <Login />
   if (route.startsWith('#/register')) return <Register />

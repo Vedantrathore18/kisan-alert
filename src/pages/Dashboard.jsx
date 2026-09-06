@@ -8,18 +8,21 @@ import RecentAlerts from '../components/dashboard/RecentAlerts'
 import QuickActions from '../components/dashboard/QuickActions'
 import RecommendationHistory from '../components/dashboard/RecommendationHistory'
 import useReveal from '../hooks/useReveal'
+import { useAuth } from '../context/AuthContext'
 
 export default function Dashboard() {
   useReveal()
-  const userName = localStorage.getItem('userName')
+  const { currentUser, userData } = useAuth()
   
   useEffect(() => {
-    if (!userName) {
+    if (currentUser === null) {
       window.location.hash = '#/login'
     }
-  }, [userName])
+  }, [currentUser])
 
-  if (!userName) return null // Prevent flash of dashboard before redirect
+  if (!currentUser) return null // Prevent flash of dashboard before redirect
+
+  const userName = userData?.name || currentUser?.displayName || 'Farmer'
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-brand-50 via-white to-emerald-50 overflow-x-hidden">

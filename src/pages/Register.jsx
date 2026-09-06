@@ -1,15 +1,54 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { Leaf, Mail, Lock, ArrowRight, User, Phone } from 'lucide-react'
 import useReveal from '../hooks/useReveal'
+import { auth, db } from '../firebase'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+import { useAuth } from '../context/AuthContext'
 
 export default function Register() {
   useReveal()
+  const { currentUser } = useAuth()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   
-  useEffect(() => {
-    if (localStorage.getItem('userName')) {
+  // Auto-redirect if already logged in via Firebase
+  React.useEffect(() => {
+    if (currentUser) {
       window.location.hash = '#/dashboard'
     }
-  }, [])
+  }, [currentUser])
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    const name = document.getElementById('register-name').value
+    const phone = document.getElementById('register-phone').value
+    const email = document.getElementById('register-email').value
+    const password = document.getElementById('register-password').value
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
+      
+      // Save extra details in Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        name,
+        phone,
+        email,
+        createdAt: new Date()
+      })
+
+      window.location.hash = '#/dashboard'
+    } catch (err) {
+      console.error(err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-brand-50 via-white to-emerald-50 flex items-center justify-center overflow-hidden px-4 py-12">
@@ -28,12 +67,9 @@ export default function Register() {
             <p className="text-slate-600 mt-2">Join Kisan Alert to grow smarter.</p>
           </div>
 
-          <form className="space-y-4" onSubmit={(e) => { 
-            e.preventDefault(); 
-            const name = document.getElementById('register-name').value;
-            if (name) localStorage.setItem('userName', name);
-            window.location.hash = '#/dashboard';
-          }}>
+          {error && <div className="mb-4 p-3 rounded-lg bg-red-100 text-red-700 text-sm font-medium">{error}</div>}
+
+          <form className="space-y-4" onSubmit={handleRegister}>
             
             {/* Full Name */}
             <div>
@@ -60,6 +96,7 @@ export default function Register() {
                   <Phone className="h-5 w-5 text-slate-400" />
                 </div>
                 <input
+                  id="register-phone"
                   type="tel"
                   className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-slate-900 placeholder:text-slate-400"
                   placeholder="+91 98765 43210"
@@ -76,6 +113,7 @@ export default function Register() {
                   <Mail className="h-5 w-5 text-slate-400" />
                 </div>
                 <input
+                  id="register-email"
                   type="email"
                   className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-slate-900 placeholder:text-slate-400"
                   placeholder="ramesh@example.com"
@@ -92,6 +130,7 @@ export default function Register() {
                   <Lock className="h-5 w-5 text-slate-400" />
                 </div>
                 <input
+                  id="register-password"
                   type="password"
                   className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-slate-900 placeholder:text-slate-400"
                   placeholder="••••••••"
@@ -100,8 +139,8 @@ export default function Register() {
               </div>
             </div>
 
-            <button type="submit" className="w-full btn-primary justify-center text-lg py-3 mt-6">
-              Create Account <ArrowRight className="w-5 h-5 ml-1" />
+            <button type="submit" disabled={loading} className="w-full btn-primary justify-center text-lg py-3 mt-6 disabled:opacity-70 disabled:cursor-not-allowed">
+              {loading ? 'Creating...' : 'Create Account'} <ArrowRight className="w-5 h-5 ml-1" />
             </button>
           </form>
           
