@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { MapPin, Map, Home, Ruler, CalendarRange, Sprout, Droplets, Layers, Sparkles } from 'lucide-react'
 
 const STATES = ['Maharashtra', 'Karnataka', 'Punjab', 'Uttar Pradesh', 'Tamil Nadu', 'Bihar', 'Madhya Pradesh', 'Gujarat', 'Telangana', 'West Bengal']
@@ -7,8 +7,8 @@ const SOIL_TYPES = ['Loam', 'Clay', 'Sandy', 'Black Cotton', 'Red', 'Silty', 'Al
 const WATER_LEVELS = ['Low', 'Moderate', 'High', 'Rain-fed only']
 const CROPS = ['Wheat', 'Rice', 'Cotton', 'Soybean', 'Sugarcane', 'Maize', 'Groundnut', 'Onion', 'Tomato', 'None']
 
-export default function FarmerForm({ onGenerate, loading }) {
-  const [form, setForm] = useState({
+export default function FarmerForm({ onGenerate, loading, initialData }) {
+  const [form, setForm] = useState(initialData || {
     state: 'Maharashtra',
     district: 'Nashik',
     village: 'Sinnar',
@@ -18,6 +18,12 @@ export default function FarmerForm({ onGenerate, loading }) {
     water: 'Moderate',
     soil: 'Black Cotton',
   })
+
+  useEffect(() => {
+    if (initialData) {
+      setForm(initialData)
+    }
+  }, [initialData])
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 

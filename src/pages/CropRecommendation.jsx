@@ -5,6 +5,9 @@ import FarmerForm from '../components/crop/FarmerForm'
 import RecommendationCard from '../components/crop/RecommendationCard'
 import EmptyState from '../components/crop/EmptyState'
 import useReveal from '../hooks/useReveal'
+import { useAuth } from '../context/AuthContext'
+import { db } from '../firebase'
+import { doc, setDoc } from 'firebase/firestore'
 
 // Mock "AI" — swap with backend call (Weather API → Gemini) later
 const MOCK_RESULTS = {
@@ -45,12 +48,23 @@ const MOCK_RESULTS = {
 
 export default function CropRecommendation() {
   useReveal()
+  const { currentUser, userData } = useAuth()
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
 
-  const handleGenerate = (form) => {
+  const handleGenerate = async (form) => {
     setLoading(true)
     setResult(null)
+    
+    if (currentUser) {
+      try {
+        const userRef = doc(db, 'users', currentUser.uid)
+        await setDoc(userRef, { farmerDetails: form }, { merge: true })
+      } catch (err) {
+        console.error('Error saving farmer details:', err)
+      }
+    }
+
     // Simulate backend → Weather API → Gemini
     setTimeout(() => {
       const base = MOCK_RESULTS[form.season] || MOCK_RESULTS.Kharif
@@ -85,7 +99,7 @@ export default function CropRecommendation() {
             {/* Split layout */}
             <div className="grid gap-6 lg:grid-cols-5">
               <div className="reveal lg:col-span-2">
-                <FarmerForm onGenerate={handleGenerate} loading={loading} />
+                <FarmerForm onGenerate={handleGenerate} loading={loading} initialData={userData?.farmerDetails} />
               </div>
               <div className="reveal lg:col-span-3" style={{ transitionDelay: '120ms' }}>
                 {loading ? <LoadingCard /> : result ? <RecommendationCard data={result} /> : <EmptyState />}
