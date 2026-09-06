@@ -42,8 +42,8 @@ export default function Navbar() {
           </ul>
 
           <div className="hidden md:flex items-center gap-3">
-            <a href="#/dashboard" className="text-sm font-semibold text-slate-700 hover:text-brand-600">Login</a>
-            <a href="#/dashboard" className="btn-primary !py-2 !px-5 text-sm">Get Started</a>
+            <a href="#/login" className="text-sm font-semibold text-slate-700 hover:text-brand-600">Login</a>
+            <a href="#/login" className="btn-primary !py-2 !px-5 text-sm">Get Started</a>
           </div>
 
           <button className="md:hidden text-slate-700" onClick={() => setOpen(!open)}>
@@ -56,8 +56,8 @@ export default function Navbar() {
             {links.map((l) => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-slate-700 font-medium">{l.label}</a>
             ))}
-            <a href="#/dashboard" className="btn-ghost justify-center">Login</a>
-            <a href="#/dashboard" className="btn-primary justify-center">Get Started</a>
+            <a href="#/login" className="btn-ghost justify-center">Login</a>
+            <a href="#/login" className="btn-primary justify-center">Get Started</a>
           </div>
         )}
       </nav>

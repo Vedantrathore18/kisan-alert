@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Sidebar from '../components/dashboard/Sidebar'
 import Topbar from '../components/dashboard/Topbar'
 import WeatherCard from '../components/dashboard/WeatherCard'
@@ -11,6 +11,16 @@ import useReveal from '../hooks/useReveal'
 
 export default function Dashboard() {
   useReveal()
+  const userName = localStorage.getItem('userName')
+  
+  useEffect(() => {
+    if (!userName) {
+      window.location.hash = '#/login'
+    }
+  }, [userName])
+
+  if (!userName) return null // Prevent flash of dashboard before redirect
+
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-brand-50 via-white to-emerald-50 overflow-x-hidden">
       {/* decorative blobs */}
@@ -25,7 +35,7 @@ export default function Dashboard() {
             {/* Welcome */}
             <div className="reveal">
               <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-                Namaste, <span className="text-brand-600">Ramesh</span> 👋
+                Namaste, <span className="text-brand-600">{userName}</span> 👋
               </h1>
               <p className="text-slate-600 mt-1">Here's what's happening on your farm today.</p>
             </div>

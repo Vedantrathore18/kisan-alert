@@ -19,10 +19,10 @@ export default function Hero() {
             Helping farmers through crop recommendations, weather intelligence, AI voice calls, disease detection and SMS alerts — all in one intelligent platform built for the field.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href="#/dashboard" className="btn-primary">
+            <a href="#/login" className="btn-primary">
               Get Started <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="#/call" className="btn-ghost">
+            <a href="#/login" className="btn-ghost">
               <Phone className="w-4 h-4" /> Try Voice Assistant
             </a>
           </div>

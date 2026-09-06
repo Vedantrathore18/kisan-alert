@@ -14,6 +14,7 @@ export default function Topbar() {
   const [q, setQ] = useState('')
   const bellRef = useRef(null)
   const profRef = useRef(null)
+  const userName = localStorage.getItem('userName') || 'Ramesh'
 
   // Close on outside click
   useEffect(() => {
@@ -112,9 +113,9 @@ export default function Topbar() {
               onClick={() => { setProfile(!profile); setBell(false) }}
               className="hidden sm:flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-xl glass hover:shadow-md transition"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white font-bold grid place-items-center text-sm">R</div>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-white font-bold grid place-items-center text-sm">{userName.charAt(0).toUpperCase()}</div>
               <div className="text-left">
-                <div className="text-xs font-bold text-slate-900 leading-tight">Ramesh P.</div>
+                <div className="text-xs font-bold text-slate-900 leading-tight">{userName.split(' ')[0]} P.</div>
                 <div className="text-[10px] text-slate-500 leading-tight">Farmer · Pro</div>
               </div>
               <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${profile ? 'rotate-180' : ''}`} />
@@ -123,9 +124,9 @@ export default function Topbar() {
             {profile && (
               <div className="absolute right-0 mt-2 w-64 glass rounded-2xl p-3 shadow-2xl animate-fade-up z-50">
                 <div className="p-3 flex items-center gap-3 border-b border-white/60">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white font-black grid place-items-center text-lg">R</div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white font-black grid place-items-center text-lg">{userName.charAt(0).toUpperCase()}</div>
                   <div>
-                    <div className="font-bold text-slate-900">Ramesh Patil</div>
+                    <div className="font-bold text-slate-900">{userName}</div>
                     <div className="text-xs text-slate-500">Nashik, Maharashtra</div>
                     <div className="text-[10px] inline-block mt-1 px-2 py-0.5 rounded-full bg-brand-100 text-brand-700 font-bold">PRO PLAN</div>
                   </div>
@@ -134,7 +135,10 @@ export default function Topbar() {
                   <MenuItem icon={User}    label="My Profile" />
                   <MenuItem icon={Sprout}  label="My Crops"    href="#/crop" />
                   <MenuItem icon={Settings} label="Settings" />
-                  <MenuItem icon={LogOut}  label="Logout"     href="#/" danger />
+                  <MenuItem icon={LogOut}  label="Logout"     danger onClick={() => {
+                    localStorage.removeItem('userName')
+                    window.location.hash = '#/login'
+                  }} />
                 </ul>
               </div>
             )}
@@ -145,11 +149,11 @@ export default function Topbar() {
   )
 }
 
-function MenuItem({ icon: Icon, label, href, danger }) {
+function MenuItem({ icon: Icon, label, href, danger, onClick }) {
   const cls = danger ? 'text-red-600 hover:bg-red-50' : 'text-slate-700 hover:bg-white/70'
   return (
     <li>
-      <a href={href || '#'} className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition ${cls}`}>
+      <a href={href || '#'} onClick={onClick} className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition ${cls}`}>
         <Icon className="w-4 h-4" />
         {label}
       </a>

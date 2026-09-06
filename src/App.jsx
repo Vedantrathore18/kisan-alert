@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+---import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Features from './components/Features'
@@ -32,13 +32,13 @@ function Landing() {
       </main>
       <Footer />
 
-      {/* Floating link to demo features */}
+      
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-2 items-end">
         <a href="#/disease" className="btn-ghost shadow-2xl bg-white/95 border-emerald-500/40 text-emerald-800">
           🔬 Disease Scan
         </a>
         <a href="#/crop" className="btn-ghost shadow-2xl">🌾 Crop AI</a>
-        <a href="#/dashboard" className="btn-primary shadow-2xl">View Dashboard →</a>
+        <a href="#/login" className="btn-primary shadow-2xl">View Dashboard →</a>
       </div>
     </div>
   )
@@ -53,6 +53,8 @@ export default function App() {
   }, [])
 
   if (route.startsWith('#/dashboard')) return <Dashboard />
+  if (route.startsWith('#/login')) return <Login />
+  if (route.startsWith('#/register')) return <Register />
   if (route.startsWith('#/crop')) return <CropRecommendation />
   if (route.startsWith('#/weather')) return <Weather />
   if (route.startsWith('#/call')) return <CallAgent />
