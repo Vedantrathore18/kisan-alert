@@ -1,4 +1,4 @@
----import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Features from './components/Features'
@@ -12,6 +12,8 @@ import Weather from './pages/Weather'
 import CallAgent from './pages/CallAgent'
 import Alerts from './pages/Alerts'
 import DiseaseScan from './pages/DiseaseScan'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import useReveal from './hooks/useReveal'
 
 function Landing() {
