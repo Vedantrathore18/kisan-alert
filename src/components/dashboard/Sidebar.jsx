@@ -8,7 +8,7 @@ const nav = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '#/dashboard' },
   { icon: Sprout, label: 'Crop AI', href: '#/crop' },
   { icon: CloudSun, label: 'Weather', href: '#/weather' },
-  { icon: Bug, label: 'Disease Scan', href: '#' },
+  { icon: Bug, label: 'Disease Scan', href: '#/disease' },
   { icon: PhoneCall, label: 'AI Voice Calls', href: '#/call' },
   { icon: MessageSquare, label: 'SMS Alerts', href: '#/alerts' },
   { icon: BarChart3, label: 'Insights', href: '#' },

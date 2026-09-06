@@ -34,8 +34,10 @@ export default function Topbar() {
     if (e.key === 'Enter' && q.trim()) {
       const term = q.toLowerCase()
       if (term.includes('crop') || term.includes('fasal')) window.location.hash = '#/crop'
+      else if (term.includes('disease') || term.includes('rog') || term.includes('bimari') || term.includes('scan')) window.location.hash = '#/disease'
       else if (term.includes('weather') || term.includes('mausam') || term.includes('rain')) window.location.hash = '#/weather'
       else if (term.includes('call') || term.includes('voice')) window.location.hash = '#/call'
+      else if (term.includes('alert') || term.includes('sms')) window.location.hash = '#/alerts'
       else alert(`Searching for "${q}"...`)
       setQ('')
     }
@@ -54,7 +56,7 @@ export default function Topbar() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={handleSearch}
-            placeholder="Search crops, weather, calls... (Press Enter)"
+            placeholder="Search crops, disease scan, weather, calls... (Press Enter)"
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/60 border border-white/60 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/40"
           />
         </div>

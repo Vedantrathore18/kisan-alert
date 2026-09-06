@@ -2,12 +2,12 @@ import React from 'react'
 import { Sprout, PhoneCall, Bug, CloudSun, MessageSquare, LayoutDashboard } from 'lucide-react'
 
 const items = [
-  { icon: Sprout, title: 'Smart Crop Recommendation', desc: 'ML models suggest the right crop based on soil, season and local climate data.' },
-  { icon: PhoneCall, title: 'AI Calling Agent', desc: 'A voice AI that calls farmers in their language to guide decisions and answer queries.' },
-  { icon: Bug, title: 'Disease Detection', desc: 'Snap a leaf, detect diseases instantly and get treatment plans powered by vision AI.' },
-  { icon: CloudSun, title: 'Weather Advisory', desc: 'Hyperlocal weather forecasts with actionable, farm-level recommendations.' },
-  { icon: MessageSquare, title: 'SMS Alerts', desc: 'Timely SMS alerts on pests, market prices and schemes — works on any phone.' },
-  { icon: LayoutDashboard, title: 'Farmer Dashboard', desc: 'A simple dashboard to track crops, alerts, calls and yield insights over time.' },
+  { icon: Sprout, title: 'Smart Crop Recommendation', desc: 'ML models suggest the right crop based on soil, season and local climate data.', href: '#/crop' },
+  { icon: PhoneCall, title: 'AI Calling Agent', desc: 'A voice AI that calls farmers in their language to guide decisions and answer queries.', href: '#/call' },
+  { icon: Bug, title: 'Disease Detection', desc: 'Snap a leaf, detect diseases instantly and get treatment plans powered by vision AI.', href: '#/disease' },
+  { icon: CloudSun, title: 'Weather Advisory', desc: 'Hyperlocal weather forecasts with actionable, farm-level recommendations.', href: '#/weather' },
+  { icon: MessageSquare, title: 'SMS Alerts', desc: 'Timely SMS alerts on pests, market prices and schemes — works on any phone.', href: '#/alerts' },
+  { icon: LayoutDashboard, title: 'Farmer Dashboard', desc: 'A simple dashboard to track crops, alerts, calls and yield insights over time.', href: '#/dashboard' },
 ]
 
 export default function Features() {
@@ -30,10 +30,11 @@ export default function Features() {
   )
 }
 
-function FeatureCard({ icon: Icon, title, desc, delay = 0 }) {
+function FeatureCard({ icon: Icon, title, desc, href = '#', delay = 0 }) {
   return (
-    <div
-      className="reveal group relative glass rounded-3xl p-7 hover:-translate-y-2 hover:shadow-2xl transition-all duration-500"
+    <a
+      href={href}
+      className="reveal group relative glass rounded-3xl p-7 hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 block cursor-pointer"
       style={{ transitionDelay: `${delay}ms` }}
     >
       <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-brand-500/0 to-brand-500/0 group-hover:from-brand-500/10 group-hover:to-emerald-400/10 transition" />
@@ -44,9 +45,9 @@ function FeatureCard({ icon: Icon, title, desc, delay = 0 }) {
         <h3 className="mt-5 text-lg font-bold text-slate-900">{title}</h3>
         <p className="mt-2 text-slate-600 text-sm leading-relaxed">{desc}</p>
         <div className="mt-5 inline-flex items-center gap-1 text-sm text-brand-700 font-semibold opacity-0 group-hover:opacity-100 transition">
-          Learn more →
+          Open Feature →
         </div>
       </div>
-    </div>
+    </a>
   )
 }

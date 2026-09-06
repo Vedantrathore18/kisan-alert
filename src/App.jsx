@@ -11,6 +11,7 @@ import CropRecommendation from './pages/CropRecommendation'
 import Weather from './pages/Weather'
 import CallAgent from './pages/CallAgent'
 import Alerts from './pages/Alerts'
+import DiseaseScan from './pages/DiseaseScan'
 import useReveal from './hooks/useReveal'
 
 function Landing() {
@@ -31,8 +32,11 @@ function Landing() {
       </main>
       <Footer />
 
-      {/* Floating link to demo the dashboard */}
+      {/* Floating link to demo features */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-2 items-end">
+        <a href="#/disease" className="btn-ghost shadow-2xl bg-white/95 border-emerald-500/40 text-emerald-800">
+          🔬 Disease Scan
+        </a>
         <a href="#/crop" className="btn-ghost shadow-2xl">🌾 Crop AI</a>
         <a href="#/dashboard" className="btn-primary shadow-2xl">View Dashboard →</a>
       </div>
@@ -53,5 +57,6 @@ export default function App() {
   if (route.startsWith('#/weather')) return <Weather />
   if (route.startsWith('#/call')) return <CallAgent />
   if (route.startsWith('#/alerts')) return <Alerts />
+  if (route.startsWith('#/disease')) return <DiseaseScan />
   return <Landing />
 }
