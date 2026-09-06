@@ -16,6 +16,7 @@ const nav = [
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false)
+  const userName = localStorage.getItem('userName') || 'Ramesh'
   return (
     <>
       {/* Mobile toggle */}
@@ -52,9 +53,9 @@ export default function Sidebar() {
 
           {/* Farm chip */}
           <div className="mt-6 glass rounded-2xl p-3 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-brand-600 grid place-items-center text-white font-bold">R</div>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-brand-600 grid place-items-center text-white font-bold">{userName.charAt(0).toUpperCase()}</div>
             <div className="min-w-0">
-              <div className="text-sm font-bold text-slate-900 truncate">Ramesh Farm</div>
+              <div className="text-sm font-bold text-slate-900 truncate">{userName.split(' ')[0]}'s Farm</div>
               <div className="text-xs text-slate-500 truncate">Nashik, Maharashtra</div>
             </div>
           </div>
@@ -90,7 +91,13 @@ export default function Sidebar() {
             <button className="flex items-center gap-2 text-sm hover:text-brand-700">
               <Settings className="w-4 h-4" /> Settings
             </button>
-            <button className="flex items-center gap-2 text-sm hover:text-red-500">
+            <button 
+              className="flex items-center gap-2 text-sm hover:text-red-500"
+              onClick={() => {
+                localStorage.removeItem('userName')
+                window.location.hash = '#/login'
+              }}
+            >
               <LogOut className="w-4 h-4" /> Logout
             </button>
           </div>

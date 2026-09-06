@@ -11,6 +11,8 @@ import CropRecommendation from './pages/CropRecommendation'
 import Weather from './pages/Weather'
 import CallAgent from './pages/CallAgent'
 import Alerts from './pages/Alerts'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import useReveal from './hooks/useReveal'
 
 function Landing() {
@@ -34,7 +36,7 @@ function Landing() {
       {/* Floating link to demo the dashboard */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-2 items-end">
         <a href="#/crop" className="btn-ghost shadow-2xl">🌾 Crop AI</a>
-        <a href="#/dashboard" className="btn-primary shadow-2xl">View Dashboard →</a>
+        <a href="#/login" className="btn-primary shadow-2xl">View Dashboard →</a>
       </div>
     </div>
   )
@@ -49,6 +51,8 @@ export default function App() {
   }, [])
 
   if (route.startsWith('#/dashboard')) return <Dashboard />
+  if (route.startsWith('#/login')) return <Login />
+  if (route.startsWith('#/register')) return <Register />
   if (route.startsWith('#/crop')) return <CropRecommendation />
   if (route.startsWith('#/weather')) return <Weather />
   if (route.startsWith('#/call')) return <CallAgent />
