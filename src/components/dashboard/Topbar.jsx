@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Search, Bell, Sun, Moon, ChevronDown, User, Settings, LogOut, Sprout } from 'lucide-react'
-import { useAuth } from '../../../context/AuthContext'
-import { auth } from '../../../firebase'
+import { useAuth } from '../../context/AuthContext'
+import { auth } from '../../firebase'
 import { signOut } from 'firebase/auth'
 
 const NOTIFICATIONS = [

@@ -3,8 +3,8 @@ import {
   Leaf, LayoutDashboard, Sprout, CloudSun, Bug, PhoneCall,
   MessageSquare, BarChart3, Settings, LogOut, Menu, X
 } from 'lucide-react'
-import { useAuth } from '../../../context/AuthContext'
-import { auth } from '../../../firebase'
+import { useAuth } from '../../context/AuthContext'
+import { auth } from '../../firebase'
 import { signOut } from 'firebase/auth'
 
 const nav = [
