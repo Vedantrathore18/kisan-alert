@@ -132,10 +132,10 @@ export default function Topbar() {
                   </div>
                 </div>
                 <ul className="mt-2 space-y-1">
-                  <MenuItem icon={User}    label="My Profile" />
-                  <MenuItem icon={Sprout}  label="My Crops"    href="#/crop" />
+                  <MenuItem icon={User} label="My Profile" />
+                  <MenuItem icon={Sprout} label="My Crops" href="#/crop" />
                   <MenuItem icon={Settings} label="Settings" />
-                  <MenuItem icon={LogOut}  label="Logout"     danger onClick={() => {
+                  <MenuItem icon={LogOut} label="Logout" danger onClick={() => {
                     localStorage.removeItem('userName')
                     window.location.hash = '#/login'
                   }} />
